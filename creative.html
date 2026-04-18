@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Creative Works — Justine Mae Macario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+  /* ─── THEME VARIABLES (inherits same palette as main site) ─── */
+  :root[data-theme="light"] {
+    --ink: #f5f0e8;
+    --paper: #ffffff;
+    --panel: #ede8df;
+    --border: #c8bfad;
+    --accent: #1a1a2e;
+    --accent2: #c0392b;
+    --accent3: #1565c0;
+    --accent-hi: #e8ff47;
+    --text-main: #0f0f1a;
+    --text-muted: #5a5470;
+    --card-bg: rgba(255,255,255,0.8);
+    --nav-bg: rgba(245,240,232,0.94);
+    --shadow: 4px 4px 0px #0f0f1a;
+    --shadow-lg: 7px 7px 0px #0f0f1a;
+    --halftone: rgba(0,0,0,0.055);
+    --speed-line: rgba(0,0,0,0.025);
+  }
+  :root[data-theme="dark"] {
+    --ink: #0a0a0f;
+    --paper: #13131a;
+    --panel: #13131a;
+    --border: #2a2a3a;
+    --accent: #e8ff47;
+    --accent2: #ff4d6d;
+    --accent3: #47c5ff;
+    --accent-hi: #e8ff47;
+    --text-main: #e8e4db;
+    --text-muted: #7a7a9a;
+    --card-bg: rgba(255,255,255,0.03);
+    --nav-bg: rgba(10,10,15,0.9);
+    --shadow: 4px 4px 0px var(--accent);
+    --shadow-lg: 7px 7px 0px var(--accent);
+    --halftone: rgba(232,255,71,0.04);
+    --speed-line: rgba(255,255,255,0.015);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--text-main);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  /* Halftone dot bg */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, var(--halftone) 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Speed-line diagonal texture */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      -52deg,
+      transparent 0px, transparent 14px,
+      var(--speed-line) 14px, var(--speed-line) 15px
+    );
+    pointer-events: none; z-index: 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--ink); }
+  ::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 0; }
+  [data-theme="dark"] ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* ─── CURSOR ─── */
+  .cursor-dot {
+    width: 10px; height: 10px; background: var(--accent2);
+    border: 2px solid var(--text-main);
+    border-radius: 50%; position: fixed; pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+  }
+  [data-theme="dark"] .cursor-dot { background: var(--accent); }
+  .cursor-ring {
+    width: 34px; height: 34px;
+    border: 2px solid var(--text-main); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
+    opacity: 0.55;
+  }
+
+  /* ─── THEME TOGGLE ─── */
+  #theme-toggle {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 2000;
+    width: 52px; height: 52px;
+    background: var(--text-main); color: var(--ink);
+    border: 2px solid var(--text-main); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: all 0.25s;
+    box-shadow: var(--shadow);
+    clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  #theme-toggle:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+
+  /* ─── NAVBAR ─── */
+  #navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: var(--nav-bg); backdrop-filter: blur(16px);
+    border-bottom: 2px solid var(--text-main);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem; letter-spacing: 0.06em; color: var(--text-main);
+    text-decoration: none;
+  }
+  .nav-logo .dot { color: var(--accent2); }
+  [data-theme="dark"] .nav-logo .dot { color: var(--accent); }
+  .nav-chapter {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-muted); display: flex; align-items: center; gap: 10px;
+  }
+  .nav-chapter-badge {
+    background: var(--accent2); color: white;
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 10px;
+  }
+  [data-theme="dark"] .nav-chapter-badge { background: var(--accent); color: var(--ink); }
+  .nav-back {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    padding: 8px 18px; border: 2px solid var(--border);
+    transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+  }
+  .nav-back:hover { border-color: var(--text-main); color: var(--text-main); transform: translate(-2px,-2px); box-shadow: var(--shadow); }
+
+  /* ─── PAGE HERO — CHAPTER COVER ─── */
+  #cover {
+    min-height: 100vh;
+    display: flex; align-items: flex-end;
+    padding: 100px 2rem 4rem;
+    position: relative; overflow: hidden;
+    background: var(--ink);
+    z-index: 1;
+  }
+
+  /* Big diagonal panel cut */
+  #cover::before {
+    content: '';
+    position: absolute; bottom: -2px; left: 0; right: 0;
+    height: 120px;
+    background: var(--panel);
+    clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
+    z-index: 0;
+  }
+
+  .cover-inner {
+    max-width: 1200px; margin: auto; width: 100%;
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: auto 1fr; gap: 4rem; align-items: end;
+  }
+
+  /* Chapter number — huge rotated */
+  .cover-chapter-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 20vw, 16rem);
+    line-height: 0.85; letter-spacing: -0.02em;
+    color: var(--text-main); position: relative;
+    -webkit-text-stroke: 2px var(--text-main);
+    -webkit-text-fill-color: transparent;
+    opacity: 0.12;
+    user-select: none;
+    align-self: center;
+  }
+  [data-theme="dark"] .cover-chapter-num { -webkit-text-stroke: 2px var(--accent); opacity: 0.08; }
+
+  .cover-text { padding-bottom: 2rem; }
+
+  .cover-eyebrow {
+    display: inline-flex; align-items: center; gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .cover-eyebrow-line {
+    width: 40px; height: 2px; background: var(--accent2);
+  }
+  [data-theme="dark"] .cover-eyebrow-line { background: var(--accent); }
+  .cover-eyebrow-label {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent2);
+  }
+  [data-theme="dark"] .cover-eyebrow-label { color: var(--accent); }
+
+  .cover-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    line-height: 0.9; letter-spacing: 0.02em;
+    color: var(--text-main);
+  }
+  .cover-title .stroke {
+    -webkit-text-stroke: 2px var(--accent2);
+    -webkit-text-fill-color: transparent;
+    display: block;
+  }
+  [data-theme="dark"] .cover-title .stroke { -webkit-text-stroke: 2px var(--accent); }
+
+  .cover-sub {
+    font-family: 'DM Sans', sans-serif; font-size: 1.05rem;
+    color: var(--text-muted); margin-top: 1.5rem;
+    max-width: 520px; line-height: 1.75; font-weight: 300;
+  }
+
+  /* Handwritten annotation */
+  .cover-annotation {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.95rem; color: var(--accent2);
+    transform: rotate(-3deg); display: inline-block;
+    margin-top: 1.2rem; opacity: 0.85;
+  }
+  [data-theme="dark"] .cover-annotation { color: var(--accent); }
+
+  /* ─── FILTER TABS ─── */
+  #gallery { background: var(--panel); padding: 5rem 2rem 6rem; position: relative; z-index: 1; }
+  .gallery-inner { max-width: 1200px; margin: auto; }
+
+  .filter-bar {
+    display: flex; align-items: center; gap: 0.75rem;
+    flex-wrap: wrap; margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+  }
+  .filter-label {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); margin-right: 0.5rem;
+  }
+  .filter-btn {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 16px; border: 2px solid var(--border);
+    color: var(--text-muted); background: transparent;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--text-main); color: var(--text-main); }
+  .filter-btn.active {
+    background: var(--text-main); color: var(--ink);
+    border-color: var(--text-main);
+  }
+  [data-theme="dark"] .filter-btn.active { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+
+  /* ─── COMIC PANEL MASONRY GRID ─── */
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 80px;
+    gap: 6px;
+  }
+
+  /* Panel base */
+  .comic-panel {
+    position: relative; overflow: hidden;
+    border: 3px solid var(--text-main);
+    background: var(--card-bg);
+    cursor: pointer;
+    transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s;
+  }
+  [data-theme="dark"] .comic-panel { border-color: var(--border); }
+  .comic-panel:hover {
+    transform: translate(-4px,-4px);
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+  }
+  [data-theme="dark"] .comic-panel:hover { border-color: var(--accent); box-shadow: 7px 7px 0 var(--accent); }
+
+  /* Grid spans — varied panel sizes for manga layout feel */
+  .p-wide    { grid-column: span 8; grid-row: span 4; }
+  .p-tall    { grid-column: span 4; grid-row: span 5; }
+  .p-square  { grid-column: span 4; grid-row: span 4; }
+  .p-long    { grid-column: span 8; grid-row: span 3; }
+  .p-small   { grid-column: span 4; grid-row: span 3; }
+  .p-slim    { grid-column: span 4; grid-row: span 2; }
+  .p-banner  { grid-column: span 12; grid-row: span 3; }
+  .p-third   { grid-column: span 4; grid-row: span 4; }
+  .p-half    { grid-column: span 6; grid-row: span 4; }
+  .p-quarter { grid-column: span 3; grid-row: span 4; }
+
+  /* Panel image */
+  .panel-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(15%) contrast(1.08);
+    transition: transform 0.5s ease, filter 0.3s ease;
+  }
+  .comic-panel:hover .panel-img {
+    transform: scale(1.07);
+    filter: grayscale(0%) contrast(1.12);
+  }
+
+  /* Placeholder panels (no image) */
+  .panel-placeholder {
+    width: 100%; height: 100%;
+    background: var(--card-bg);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 0.75rem;
+    padding: 1.5rem;
+  }
+  .panel-placeholder-icon {
+    font-size: 2rem; opacity: 0.18; color: var(--text-main);
+  }
+  .panel-placeholder-text {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted); text-align: center; opacity: 0.7;
+  }
+
+  /* Diagonal speed lines overlay on all panels */
+  .comic-panel::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 2;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent 0px, transparent 8px,
+      rgba(0,0,0,0.025) 8px, rgba(0,0,0,0.025) 9px
+    );
+    pointer-events: none;
+  }
+  [data-theme="dark"] .comic-panel::before {
+    background: repeating-linear-gradient(-45deg,transparent 0px,transparent 8px,rgba(255,255,255,0.012) 8px,rgba(255,255,255,0.012) 9px);
+  }
+
+  /* Panel caption / overlay */
+  .panel-caption {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
+    background: var(--text-main); color: var(--ink);
+    padding: 10px 14px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  [data-theme="dark"] .panel-caption { background: rgba(10,10,15,0.95); color: var(--text-main); border-top: 2px solid var(--accent); }
+  .comic-panel:hover .panel-caption { transform: translateY(0); }
+  .panel-caption-cat {
+    font-family: 'Space Mono', monospace; font-size: 0.55rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 3px;
+  }
+  [data-theme="dark"] .panel-caption-cat { color: var(--accent); }
+  .panel-caption-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
+    letter-spacing: 0.04em; line-height: 1;
+  }
+  .panel-caption-sub {
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem;
+    color: rgba(255,255,255,0.7); margin-top: 4px; font-weight: 300;
+    line-height: 1.4;
+  }
+  [data-theme="dark"] .panel-caption-sub { color: var(--text-muted); }
+
+  /* Corner category tag (always visible) */
+  .panel-tag {
+    position: absolute; top: 10px; left: 10px; z-index: 4;
+    background: var(--accent2); color: white;
+    font-family: 'Space Mono', monospace; font-size: 0.52rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 8px;
+  }
+  [data-theme="dark"] .panel-tag { background: var(--accent); color: var(--ink); }
+
+  /* Panel number stamp */
+  .panel-num {
+    position: absolute; bottom: 10px; right: 10px; z-index: 4;
+    font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
+    line-height: 1; color: rgba(255,255,255,0.08);
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .comic-panel:hover .panel-num { opacity: 0; }
+
+  /* SFX burst — speech bubble style on select panels */
+  .panel-sfx {
+    position: absolute; top: 12px; right: 12px; z-index: 6;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.04em;
+    color: var(--accent2); line-height: 1;
+    text-shadow: 2px 2px 0 var(--text-main);
+    pointer-events: none;
+    transform: rotate(8deg);
+  }
+  [data-theme="dark"] .panel-sfx { color: var(--accent); text-shadow: 2px 2px 0 var(--ink); }
+
+  /* ─── DIVIDER — CHAPTER BREAK ─── */
+  .chapter-break {
+    padding: 3rem 2rem;
+    background: var(--ink);
+    position: relative; z-index: 1;
+    overflow: hidden;
+    border-top: 2px solid var(--text-main);
+    border-bottom: 2px solid var(--text-main);
+  }
+  [data-theme="dark"] .chapter-break { border-color: var(--border); }
+  .chapter-break-inner {
+    max-width: 1200px; margin: auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  }
+  .chapter-break-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem,5vw,4rem); letter-spacing: 0.05em;
+    color: var(--text-main); line-height: 1;
+  }
+  .chapter-break-text span { color: var(--accent2); display: block; font-size: 0.8em; }
+  [data-theme="dark"] .chapter-break-text span { color: var(--accent); }
+  .chapter-break-annotation {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.1rem; color: var(--text-muted);
+    transform: rotate(-2deg); display: inline-block;
+    opacity: 0.7; text-align: right;
+    line-height: 1.5;
+  }
+  .chapter-break-deco {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem,14vw,10rem);
+    color: rgba(0,0,0,0.04);
+    [data-theme="dark"] & { color: rgba(232,255,71,0.03); }
+    line-height: 1; letter-spacing: 0.1em;
+    pointer-events: none; user-select: none;
+    position: absolute; right: 2rem; top: 50%; transform: translateY(-50%);
+  }
+  [data-theme="dark"] .chapter-break-deco { color: rgba(232,255,71,0.03); }
+
+  /* ─── ABOUT CREATIVE SECTION ─── */
+  #about-creative {
+    padding: 5rem 2rem;
+    background: var(--panel);
+    position: relative; z-index: 1;
+    border-top: 2px solid var(--text-main);
+  }
+  [data-theme="dark"] #about-creative { border-color: var(--border); }
+  .about-creative-inner {
+    max-width: 1200px; margin: auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+  }
+  .creative-about-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem,5vw,3.5rem); line-height: 1;
+    margin-bottom: 1.5rem; letter-spacing: 0.03em;
+  }
+  .creative-about-text h2 em {
+    font-style: normal; display: block;
+    -webkit-text-stroke: 1.5px var(--accent2);
+    -webkit-text-fill-color: transparent;
+  }
+  [data-theme="dark"] .creative-about-text h2 em { -webkit-text-stroke: 1.5px var(--accent); }
+  .creative-about-text p {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--text-muted); margin-bottom: 1.1rem; font-weight: 300;
+  }
+  .creative-about-text p strong { color: var(--text-main); font-weight: 500; }
+
+  .creative-mediums { display: flex; flex-direction: column; gap: 1.2rem; }
+  .medium-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.2rem;
+    border: 2px solid var(--border);
+    background: var(--card-bg);
+    transition: all 0.25s;
+  }
+  .medium-item:hover { border-color: var(--text-main); transform: translate(-3px,-3px); box-shadow: var(--shadow); }
+  [data-theme="dark"] .medium-item:hover { border-color: var(--accent); box-shadow: var(--shadow); }
+  .medium-icon {
+    width: 42px; height: 42px; flex-shrink: 0;
+    border: 2px solid var(--text-main); background: var(--text-main);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: var(--ink);
+  }
+  [data-theme="dark"] .medium-icon { border-color: var(--accent); background: var(--accent); }
+  .medium-info strong {
+    display: block; font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-main); margin-bottom: 4px;
+  }
+  .medium-info p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+  /* ─── BACK LINK ─── */
+  #back-section {
+    padding: 4rem 2rem;
+    background: var(--text-main);
+    text-align: center; position: relative; z-index: 1;
+  }
+  [data-theme="dark"] #back-section { background: var(--ink); border-top: 1px solid var(--border); }
+  .back-section-inner { max-width: 600px; margin: auto; }
+  .back-cta-label {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 1rem;
+  }
+  [data-theme="dark"] .back-cta-label { color: var(--text-muted); }
+  .back-cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem,4vw,3rem); letter-spacing: 0.04em;
+    color: var(--ink); margin-bottom: 2rem; line-height: 1;
+  }
+  [data-theme="dark"] .back-cta-title { color: var(--text-main); }
+  .back-cta-title span { color: var(--accent-hi); }
+  [data-theme="dark"] .back-cta-title span { color: var(--accent); }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-main); background: transparent;
+    border: 2px solid rgba(255,255,255,0.4);
+    padding: 12px 28px; text-decoration: none; transition: all 0.25s;
+  }
+  [data-theme="dark"] .back-btn { color: var(--text-main); border-color: var(--border); }
+  .back-btn:hover { border-color: var(--ink); color: var(--ink); transform: translate(-3px,-3px); box-shadow: 4px 4px 0 rgba(255,255,255,0.3); }
+  [data-theme="dark"] .back-btn:hover { border-color: var(--accent); color: var(--accent); box-shadow: 4px 4px 0 var(--accent); }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .rd1 { transition-delay: 0.1s; } .rd2 { transition-delay: 0.2s; } .rd3 { transition-delay: 0.3s; }
+
+  /* ─── LIGHTBOX ─── */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+  #lightbox.open { display: flex; }
+  .lb-inner {
+    position: relative; max-width: 900px; width: 100%;
+    animation: lbIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes lbIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .lb-img {
+    width: 100%; max-height: 80vh; object-fit: contain;
+    border: 3px solid var(--text-main); display: block;
+  }
+  [data-theme="dark"] .lb-img { border-color: var(--accent); }
+  .lb-meta {
+    background: var(--text-main); color: var(--ink);
+    padding: 12px 18px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  [data-theme="dark"] .lb-meta { background: var(--accent); }
+  .lb-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em; }
+  .lb-cat { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
+  .lb-close {
+    position: absolute; top: -16px; right: -16px;
+    width: 40px; height: 40px;
+    background: var(--accent2); color: white;
+    border: 2px solid var(--text-main);
+    font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+  }
+  [data-theme="dark"] .lb-close { background: var(--accent2); color: white; }
+  .lb-close:hover { transform: rotate(90deg); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .cover-inner { grid-template-columns: 1fr; }
+    .cover-chapter-num { display: none; }
+    .about-creative-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .panel-grid { grid-template-columns: repeat(6,1fr); }
+    .p-wide    { grid-column: span 6; grid-row: span 4; }
+    .p-tall    { grid-column: span 6; grid-row: span 4; }
+    .p-square  { grid-column: span 3; grid-row: span 3; }
+    .p-long    { grid-column: span 6; grid-row: span 3; }
+    .p-small   { grid-column: span 3; grid-row: span 3; }
+    .p-slim    { grid-column: span 6; grid-row: span 2; }
+    .p-banner  { grid-column: span 6; grid-row: span 3; }
+    .p-third   { grid-column: span 6; grid-row: span 3; }
+    .p-half    { grid-column: span 6; grid-row: span 4; }
+    .p-quarter { grid-column: span 3; grid-row: span 3; }
+    .chapter-break-inner { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- THEME TOGGLE -->
+<button id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+  <i class="fas fa-moon" id="theme-icon"></i>
+</button>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <button class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <img class="lb-img" id="lbImg" src="" alt="" />
+    <div class="lb-meta">
+      <div class="lb-title" id="lbTitle"></div>
+      <div class="lb-cat" id="lbCat"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">JM<span class="dot">.</span></a>
+    <div class="nav-chapter">
+      <span class="nav-chapter-badge">Side Story</span>
+      Creative Works
+    </div>
+    <a href="index.html" class="nav-back">
+      <i class="fas fa-arrow-left"></i> Main Portfolio
+    </a>
+  </div>
+</nav>
+
+<!-- ── COVER ── -->
+<section id="cover">
+  <div class="cover-inner">
+    <div class="cover-chapter-num">B</div>
+    <div class="cover-text">
+      <div class="cover-eyebrow">
+        <div class="cover-eyebrow-line"></div>
+        <span class="cover-eyebrow-label">Side Story · Bonus Chapter</span>
+      </div>
+      <h1 class="cover-title">
+        Creative
+        <span class="stroke">Works</span>
+      </h1>
+      <p class="cover-sub">
+        The side of me that doesn't fit neatly into a résumé. Illustrations, design explorations, photography, and the visual noise that lives between the technical chapters.
+      </p>
+      <div class="cover-annotation">
+        ← the fun stuff lives here :)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section id="gallery">
+  <div class="gallery-inner">
+
+    <div class="filter-bar reveal">
+      <span class="filter-label">Filter —</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="illustration">Illustration</button>
+      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="photo">Photography</button>
+      <button class="filter-btn" data-filter="motion">Motion</button>
+    </div>
+
+    <div class="panel-grid reveal">
+
+      <!-- Panel 01 — Wide feature -->
+      <div class="comic-panel p-wide" data-cat="illustration"
+           onclick="openLightbox('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&q=80','Concept Sketches','Illustration')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Concept sketches" loading="lazy" />
+        <div class="panel-tag">Illustration</div>
+        <div class="panel-sfx">DRAW!</div>
+        <div class="panel-num">01</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Illustration</div>
+          <div class="panel-caption-title">Concept Sketches</div>
+          <div class="panel-caption-sub">Character and concept development studies</div>
+        </div>
+      </div>
+
+      <!-- Panel 02 — Tall -->
+      <div class="comic-panel p-tall" data-cat="photo"
+           onclick="openLightbox('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80','City After Dark','Photography')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" alt="City lights" loading="lazy" />
+        <div class="panel-tag">Photo</div>
+        <div class="panel-num">02</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Photography</div>
+          <div class="panel-caption-title">City After Dark</div>
+          <div class="panel-caption-sub">Urban light studies, Baguio City</div>
+        </div>
+      </div>
+
+      <!-- Panel 03 — Square -->
+      <div class="comic-panel p-square" data-cat="design"
+           onclick="openLightbox('https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80','Type Experiments','Design')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80" alt="Typography" loading="lazy" />
+        <div class="panel-tag">Design</div>
+        <div class="panel-num">03</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Design</div>
+          <div class="panel-caption-title">Type Experiments</div>
+          <div class="panel-caption-sub">Editorial typography explorations</div>
+        </div>
+      </div>
+
+      <!-- Panel 04 — Small -->
+      <div class="comic-panel p-small" data-cat="design"
+           onclick="openLightbox('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80','Brand Moodboards','Design')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Moodboard" loading="lazy" />
+        <div class="panel-tag">Design</div>
+        <div class="panel-num">04</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Design</div>
+          <div class="panel-caption-title">Brand Moodboards</div>
+          <div class="panel-caption-sub">Visual identity exploration</div>
+        </div>
+      </div>
+
+      <!-- Panel 05 — Small -->
+      <div class="comic-panel p-small" data-cat="motion"
+           onclick="openLightbox('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80','Motion Studies','Motion')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80" alt="Motion design" loading="lazy" />
+        <div class="panel-tag">Motion</div>
+        <div class="panel-sfx">ZAP!</div>
+        <div class="panel-num">05</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Motion</div>
+          <div class="panel-caption-title">Motion Studies</div>
+          <div class="panel-caption-sub">Interface animation prototypes</div>
+        </div>
+      </div>
+
+      <!-- Panel 06 — Banner -->
+      <div class="comic-panel p-long" data-cat="photo"
+           onclick="openLightbox('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80','Cordillera Chronicles','Photography')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80" alt="Mountain landscape" loading="lazy" />
+        <div class="panel-tag">Photo</div>
+        <div class="panel-num">06</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Photography</div>
+          <div class="panel-caption-title">Cordillera Chronicles</div>
+          <div class="panel-caption-sub">Landscapes and stories from the mountain provinces</div>
+        </div>
+      </div>
+
+      <!-- Panel 07 — Third -->
+      <div class="comic-panel p-small" data-cat="illustration"
+           onclick="openLightbox('https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800&q=80','Digital Studies','Illustration')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=600&q=80" alt="Digital art" loading="lazy" />
+        <div class="panel-tag">Illustration</div>
+        <div class="panel-num">07</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Illustration</div>
+          <div class="panel-caption-title">Digital Studies</div>
+          <div class="panel-caption-sub">Digital painting and composition practice</div>
+        </div>
+      </div>
+
+      <!-- Panel 08 — Half -->
+      <div class="comic-panel p-half" data-cat="design"
+           onclick="openLightbox('https://images.unsplash.com/photo-1563089145-599997674d42?w=800&q=80','UI Explorations','Design')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1563089145-599997674d42?w=700&q=80" alt="UI design" loading="lazy" />
+        <div class="panel-tag">Design</div>
+        <div class="panel-sfx">UI!</div>
+        <div class="panel-num">08</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Design</div>
+          <div class="panel-caption-title">UI Explorations</div>
+          <div class="panel-caption-sub">Interface and UX design concepts</div>
+        </div>
+      </div>
+
+      <!-- Panel 09 — Half -->
+      <div class="comic-panel p-half" data-cat="photo"
+           onclick="openLightbox('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80','People & Community','Photography')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700&q=80" alt="Community" loading="lazy" />
+        <div class="panel-tag">Photo</div>
+        <div class="panel-num">09</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Photography</div>
+          <div class="panel-caption-title">People & Community</div>
+          <div class="panel-caption-sub">Portraits from tech events and advocacies</div>
+        </div>
+      </div>
+
+      <!-- Panel 10 — Small -->
+      <div class="comic-panel p-small" data-cat="motion"
+           onclick="openLightbox('https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=800&q=80','Kinetic Posters','Motion')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=600&q=80" alt="Kinetic design" loading="lazy" />
+        <div class="panel-tag">Motion</div>
+        <div class="panel-num">10</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Motion</div>
+          <div class="panel-caption-title">Kinetic Posters</div>
+          <div class="panel-caption-sub">Animated event poster concepts</div>
+        </div>
+      </div>
+
+      <!-- Panel 11 — Small -->
+      <div class="comic-panel p-small" data-cat="illustration"
+           onclick="openLightbox('https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&q=80','Line Work','Illustration')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=600&q=80" alt="Line illustration" loading="lazy" />
+        <div class="panel-tag">Illustration</div>
+        <div class="panel-num">11</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Illustration</div>
+          <div class="panel-caption-title">Line Work</div>
+          <div class="panel-caption-sub">Ink and pen studies</div>
+        </div>
+      </div>
+
+      <!-- Panel 12 — Wide -->
+      <div class="comic-panel p-wide" data-cat="design"
+           onclick="openLightbox('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1000&q=80','Presentation Design','Design')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80" alt="Presentation" loading="lazy" />
+        <div class="panel-tag">Design</div>
+        <div class="panel-sfx">WOW!</div>
+        <div class="panel-num">12</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Design</div>
+          <div class="panel-caption-title">Presentation Design</div>
+          <div class="panel-caption-sub">Pitch decks and research presentation layouts</div>
+        </div>
+      </div>
+
+      <!-- Panel 13 — Tall -->
+      <div class="comic-panel p-tall" data-cat="illustration"
+           onclick="openLightbox('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80','Character Studies','Illustration')">
+        <img class="panel-img" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" alt="Character" loading="lazy" />
+        <div class="panel-tag">Illustration</div>
+        <div class="panel-num">13</div>
+        <div class="panel-caption">
+          <div class="panel-caption-cat">Illustration</div>
+          <div class="panel-caption-title">Character Studies</div>
+          <div class="panel-caption-sub">Portraits and character development</div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /panel-grid -->
+
+  </div>
+</section>
+
+<!-- ── CHAPTER BREAK ── -->
+<div class="chapter-break reveal">
+  <div class="chapter-break-inner">
+    <div>
+      <div class="chapter-break-text">
+        <span>The medium is</span>
+        The Message
+      </div>
+    </div>
+    <div class="chapter-break-annotation">
+      creativity isn't separate<br>from the technical work —<br>it <em>is</em> the work.
+    </div>
+    <div class="chapter-break-deco">CREATE</div>
+  </div>
+</div>
+
+<!-- ── ABOUT CREATIVE ── -->
+<section id="about-creative">
+  <div class="about-creative-inner">
+    <div class="creative-about-text reveal">
+      <h2>
+        Beyond<br>
+        <em>The Stack</em>
+      </h2>
+      <p>
+        The same curiosity that drives my research into <strong>Multi-Agentic AI</strong> and security systems spills over into how I see the world visually. Design isn't decoration — it's the layer that makes complex ideas accessible.
+      </p>
+      <p>
+        Whether it's crafting a pitch deck that secures a regional finalist spot or photographing the mountain city I call home, I believe the best technical communicators are also visual thinkers.
+      </p>
+      <p>
+        This page is the honest, unpolished side — works in progress, experiments, and the things I make just because they're interesting.
+      </p>
+    </div>
+
+    <div class="creative-mediums reveal rd2">
+      <div class="medium-item">
+        <div class="medium-icon"><i class="fas fa-pen-nib"></i></div>
+        <div class="medium-info">
+          <strong>Illustration & Drawing</strong>
+          <p>Character sketches, concept art, and ink studies. Mostly analog — sometimes digital.</p>
+        </div>
+      </div>
+      <div class="medium-item">
+        <div class="medium-icon"><i class="fas fa-swatchbook"></i></div>
+        <div class="medium-info">
+          <strong>Graphic Design</strong>
+          <p>Visual identity, presentation design, and editorial layouts. Canva, Figma, and the occasional hand-lettered piece.</p>
+        </div>
+      </div>
+      <div class="medium-item">
+        <div class="medium-icon"><i class="fas fa-camera"></i></div>
+        <div class="medium-info">
+          <strong>Photography</strong>
+          <p>Documenting the Cordillera region, tech communities, and the quiet moments between events.</p>
+        </div>
+      </div>
+      <div class="medium-item">
+        <div class="medium-icon"><i class="fas fa-film"></i></div>
+        <div class="medium-info">
+          <strong>Motion & Animation</strong>
+          <p>Interface motion, animated posters, and short-form visual experiments.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BACK ── -->
+<section id="back-section">
+  <div class="back-section-inner">
+    <div class="back-cta-label">End of side story</div>
+    <h2 class="back-cta-title">Back to the <span>main chapter.</span></h2>
+    <a href="index.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Return to Portfolio
+    </a>
+  </div>
+</section>
+
+<script>
+  // ── CURSOR ──
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mX = 0, mY = 0, rX = 0, rY = 0;
+  document.addEventListener('mousemove', e => {
+    mX = e.clientX; mY = e.clientY;
+    dot.style.left = mX + 'px'; dot.style.top = mY + 'px';
+  });
+  (function animRing() {
+    rX += (mX - rX) * 0.12; rY += (mY - rY) * 0.12;
+    ring.style.left = rX + 'px'; ring.style.top = rY + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a, button, .comic-panel, .medium-item, .filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width='52px'; ring.style.height='52px'; ring.style.opacity='0.8'; });
+    el.addEventListener('mouseleave', () => { ring.style.width='34px'; ring.style.height='34px'; ring.style.opacity='0.55'; });
+  });
+
+  // ── THEME TOGGLE ──
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  let dark = false;
+  btn.addEventListener('click', () => {
+    dark = !dark;
+    html.setAttribute('data-theme', dark ? 'dark' : 'light');
+    icon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+  });
+
+  // ── FILTER ──
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const panels = document.querySelectorAll('.comic-panel');
+  filterBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      filterBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      const f = b.dataset.filter;
+      panels.forEach(p => {
+        if (f === 'all' || p.dataset.cat === f) {
+          p.style.display = '';
+          setTimeout(() => { p.style.opacity = '1'; p.style.transform = ''; }, 10);
+        } else {
+          p.style.opacity = '0';
+          p.style.transform = 'scale(0.92)';
+          setTimeout(() => { p.style.display = 'none'; }, 300);
+        }
+      });
+    });
+  });
+  panels.forEach(p => { p.style.transition = 'opacity 0.3s ease, transform 0.3s ease, box-shadow 0.28s, border-color 0.28s'; });
+
+  // ── LIGHTBOX ──
+  function openLightbox(src, title, cat) {
+    document.getElementById('lbImg').src = src;
+    document.getElementById('lbTitle').textContent = title;
+    document.getElementById('lbCat').textContent = cat;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── SCROLL REVEAL ──
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
